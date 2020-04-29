@@ -1,8 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ToastrComponent from './toastr';
 import { INIT_TOASTR, SUCCESS_TOASTR, DESTROY_TOASTR } from './actions';
 
 class ToastrContainer extends React.Component {
+  static propTypes = {
+    autoClose: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.bool
+    ])
+  };
+
   constructor(props) {
     super(props);
     this.state = {

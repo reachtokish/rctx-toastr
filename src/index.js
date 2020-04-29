@@ -2,36 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { INIT_TOASTR, SUCCESS_TOASTR, DESTROY_TOASTR } from './actions';
 import ToastrContainer from './toastrContainer';
+import registerEvent from './registerEvents';
 
 import './style.scss';
 
 const toastr = {
-  init: () => {
+  init: options => {
     const appendDomNode = document.createElement('div');
     document.body.appendChild(appendDomNode);
     ReactDOM.render(
-      <ToastrContainer />,
+      <ToastrContainer {...options} />,
       appendDomNode
     );
-    const event = new CustomEvent(INIT_TOASTR, {
-      detail: 'INIT'
-    });
 
-    window.dispatchEvent(event);
+    registerEvent(INIT_TOASTR);
   },
   success: () => {
-    const event = new CustomEvent(SUCCESS_TOASTR, {
-      detail: 'SUCCESS'
-    });
-
-    window.dispatchEvent(event);
+    registerEvent(SUCCESS_TOASTR);
   },
   destroy: () => {
-    const event = new CustomEvent(DESTROY_TOASTR, {
-      detail: 'DESTROY'
-    });
-
-    window.dispatchEvent(event);
+    registerEvent(DESTROY_TOASTR);
   }
 };
 
