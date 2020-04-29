@@ -1,0 +1,21 @@
+.toastr-container {
+  position: fixed;
+  right: 0;
+  width: 200px;
+  top: 0;
+  // background-color: red;
+  bottom: 0;
+}
+.toastr {
+  background-color: #ff00a5;
+  width: 90%;
+  margin: 10px auto;
+  height: 50px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 500;
+  position: relative;
+}

@@ -1,0 +1,3 @@
+export const INIT_TOASTR = 'INIT_TOASTR';
+export const SUCCESS_TOASTR = 'SUCCESS_TOASTR';
+export const DESTROY_TOASTR = 'DESTROY_TOASTR';
