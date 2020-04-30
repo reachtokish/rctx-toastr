@@ -89,6 +89,7 @@
     "sass": "^1.26.3"
   },
   "dependencies": {
+    "react-addons-update": "^15.6.2",
     "react-spring": "^8.0.27"
   }
 }
