@@ -7,6 +7,12 @@ import update from 'react-addons-update';
 
 const rand = Math.random(1, 100);
 
+let num = 0;
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 class ToastrContainer extends React.Component {
   static propTypes = {
     autoClose: PropTypes.oneOfType([
@@ -24,16 +30,26 @@ class ToastrContainer extends React.Component {
 
   componentDidMount() {
     window.addEventListener(INIT_TOASTR, e => {
-      console.log(e);
+      // console.log(e);
     }, false);
 
     window.addEventListener(SUCCESS_TOASTR, () => {
       const { toastrComponents } = { ...this.state };
       const toaster = [...toastrComponents];
-      toaster.push(<ToastrComponent />);
-      this.setState({
+      toaster.push(num);
+      num += 1;
+      this.setState(() => ({
         toastrComponents: toaster
-      });
+      }));
+    }, false);
+
+    window.addEventListener(DESTROY_TOASTR, e => {
+      // console.log(e.detail.index);
+      const { toastrComponents } = { ...this.state };
+      const toaster = [...toastrComponents];
+      this.setState(() => ({
+        toastrComponents: update(toaster, { $splice: [[0, 1]] })
+      }));
     }, false);
   }
 
@@ -43,7 +59,7 @@ class ToastrContainer extends React.Component {
     return (
       <div className="toastr-container">
         {toastrComponents
-          .map((toastrComponent, index) => <ToastrComponent key={index}>{rand}</ToastrComponent>)}
+          .map((toastrComponent, index) => <ToastrComponent key={toastrComponent} index={index}>{toastrComponent}</ToastrComponent>)}
       </div>
     );
   }
