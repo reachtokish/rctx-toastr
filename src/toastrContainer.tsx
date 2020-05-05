@@ -9,89 +9,90 @@ import {
   CSSTransition,
   TransitionGroup,
 } from 'react-transition-group';
+import { IOptions } from './interfaces';
 
 interface State {
-  toastrComponents: any;
-}
-
-interface Options {
-  autoClose: number;
-  position: 'top-left' | 'top-right'
+  toastRails: object;
 }
 
 interface Props {
-  options: Options
+  options: IOptions
 }
 
 class ToastrContainer extends React.Component<Props, State> {
-  static propTypes = {
-    autoClose: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.bool
-    ])
-  };
-
   constructor(props) {
     super(props);
     this.state = {
-      toastrComponents: []
+      toastRails: {}
     };
   }
 
-  componentDidMount() {
-    // window.addEventListener(INIT_TOASTR, e => {
-    // }, false);
+  updateToastRails(component, options) {
+    const { toastRails } = this.state;
+    const { position } = options;
 
-    window.addEventListener(SUCCESS_TOASTR, e => {
-      const { toastrComponents } = { ...this.state };
-      const toaster = [...toastrComponents];
-      toaster.push({
+    if (toastRails[position]) {
+      toastRails[position].push({
         id: uniqueId(),
-        component: e.detail.component,
-        options: e.detail.options
+        component,
+        options
       });
-      this.setState(() => ({
-        toastrComponents: toaster
-      }));
+
+      this.setState({
+        toastRails
+      }, () => {
+        console.log(toastRails);
+      })
+    }
+    else {
+      toastRails[position] = [{
+        id: uniqueId(),
+        component,
+        options
+      }];
+
+      this.setState({
+        toastRails
+      }, () => {
+        console.log(toastRails);
+      });
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener(INIT_TOASTR, event => {
+      return null;
     }, false);
 
-    window.addEventListener(DESTROY_TOASTR, e => {
-      // console.log(e.detail.index);
-      const { toastrComponents } = { ...this.state };
-      // const toaster = [...toastrComponents];
-      this.setState(() => ({
-        toastrComponents: toastrComponents.filter(el => e.detail.id !== el.id)
-      }));
+    window.addEventListener(SUCCESS_TOASTR, event => {
+      const { component, options } = event.detail;
+      this.updateToastRails(component, options);
+    }, false);
+
+    window.addEventListener(DESTROY_TOASTR, event => {
+      return null;
     }, false);
   }
 
   render() {
-    const { toastrComponents } = this.state;
-    const { options } = this.props;
+    const { toastRails } = this.state;
 
     return (
-      <div className="toastr-container">
-        <TransitionGroup
-          component={null}
-        >
-          {toastrComponents.map(toastrComponent => (
-            <CSSTransition
-              timeout={500}
-              classNames="fade"
-              key={toastrComponent.id}
-            >
+      <>
+        {Object.keys(toastRails).map(toastRail => (
+          <div className={`toastr-container ${toastRail}`} key={toastRail}>
+            {toastRails[toastRail].map(({ id, component, options }) => (
               <ToastrComponent
-                options={
-                  { ...options, ...toastrComponent.options }
-                }
-                id={toastrComponent.id}
+                options={options}
+                id={id}
+                key={id}
               >
-                {toastrComponent.component}
+                {component}
               </ToastrComponent>
-            </CSSTransition>
-          ))}
-        </TransitionGroup>
-      </div>
+            ))}
+          </div>
+        ))}
+      </>
     );
   }
 }

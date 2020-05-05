@@ -7,8 +7,8 @@ interface Options {
 
 interface Props {
   children: any;
-  options: Options,
-  id: string
+  options: Options;
+  id: string;
 }
 
 class ToastrComponent extends React.Component<Props, any> {

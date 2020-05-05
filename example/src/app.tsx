@@ -12,7 +12,7 @@ const allTemplates = [
 interface State {
   autoClose: number;
   position: string;
-  templates: string;
+  template: string;
 }
 
 class App extends React.Component<{}, State> {
@@ -22,7 +22,7 @@ class App extends React.Component<{}, State> {
     this.state = {
       autoClose: 2000,
       position: 'top-left',
-      templates: allTemplates[0]
+      template: allTemplates[0]
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -30,7 +30,7 @@ class App extends React.Component<{}, State> {
   }
 
   componentDidMount() {
-    const { autoClose, position, templates } = this.state;
+    const { autoClose, position } = this.state;
 
     toastr.init({
       autoClose,
@@ -39,9 +39,9 @@ class App extends React.Component<{}, State> {
   }
 
   handleToastr() {
-    const { autoClose, position, templates } = this.state;
+    const { autoClose, position, template } = this.state;
 
-    toastr.success(templates, {
+    toastr.success(template, {
       autoClose,
       position
     });
@@ -56,7 +56,7 @@ class App extends React.Component<{}, State> {
   }
 
   render() {
-    const { autoClose, position, templates } = this.state;
+    const { autoClose, position, template } = this.state;
 
     return (
       <div className="wrapper">
@@ -88,13 +88,13 @@ class App extends React.Component<{}, State> {
             <div>
               <label>Template</label>
               <select
-                name="templates"
+                name="template"
                 multiple={false}
-                value={templates}
+                value={template}
                 onChange={this.handleChange}
               >
-                {allTemplates.map(template => (
-                  <option value={template} key={template}>{template}</option>
+                {allTemplates.map(eachTemplate => (
+                  <option value={eachTemplate} key={eachTemplate}>{eachTemplate}</option>
                 ))}
               </select>
             </div>
