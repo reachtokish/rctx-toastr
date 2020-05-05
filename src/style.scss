@@ -3,13 +3,12 @@
   right: 0;
   width: 200px;
   top: 0;
-  // background-color: red;
   bottom: 0;
 }
 .toastr {
   background-color: #ff00a5;
   width: 90%;
-  margin: 10px auto;
+  margin-bottom: 10px;
   height: 50px;
   border-radius: 4px;
   display: flex;
@@ -17,6 +16,43 @@
   justify-content: center;
   color: #fff;
   font-weight: 500;
-  position: relative;
-  transform: 0.2s;
+  // position: relative;
+  // transition: 0.2s;
+}
+
+
+// Animation classes
+.fade-enter {
+  // opacity: 0;
+  // top: 20px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height .3s ease-in, opacity .3s ease-in;
+}
+.fade-enter-active {
+  // opacity: 1;
+  // top: 0;
+  // transition: all 500ms;
+  max-height: 500px;
+  opacity: 1;
+  overflow: hidden;
+}
+.fade-exit {
+  // opacity: 1;
+  // top: 0;
+  max-height: 500px;
+  opacity: 1;
+  transition: max-height .3s ease-out, opacity .3s ease-out, margin-bottom .3s ease-out;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.fade-exit-active {
+  // opacity: 0;
+  // top: -20px;
+  // transition: all 500ms;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-bottom: 0px;
 }

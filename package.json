@@ -34,6 +34,7 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
-    "react-addons-update": "^15.6.2"
+    "react-addons-update": "^15.6.2",
+    "react-transition-group": "^4.3.0"
   }
 }

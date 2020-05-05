@@ -1,6 +1,9 @@
-const registerEvent = type => {
+const registerEvent = (type, component = null, options = null) => {
   const event = new CustomEvent(type, {
-    detail: type
+    detail: {
+      component,
+      options
+    }
   });
 
   window.dispatchEvent(event);

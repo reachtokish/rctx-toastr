@@ -4,18 +4,26 @@ import PropTypes from 'prop-types';
 import ToastrComponent from './toastr';
 import { INIT_TOASTR, SUCCESS_TOASTR, DESTROY_TOASTR } from './action';
 import update from 'react-addons-update';
-
-let num = 0;
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
+import { uniqueId } from './utils';
+import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
 
 interface State {
   toastrComponents: any;
 }
 
-class ToastrContainer extends React.Component<any, State> {
+interface Options {
+  autoClose: number;
+  position: 'top-left' | 'top-right'
+}
+
+interface Props {
+  options: Options
+}
+
+class ToastrContainer extends React.Component<Props, State> {
   static propTypes = {
     autoClose: PropTypes.oneOfType([
       PropTypes.number,
@@ -34,11 +42,14 @@ class ToastrContainer extends React.Component<any, State> {
     // window.addEventListener(INIT_TOASTR, e => {
     // }, false);
 
-    window.addEventListener(SUCCESS_TOASTR, () => {
+    window.addEventListener(SUCCESS_TOASTR, e => {
       const { toastrComponents } = { ...this.state };
       const toaster = [...toastrComponents];
-      toaster.push(num);
-      num += 1;
+      toaster.push({
+        id: uniqueId(),
+        component: e.detail.component,
+        options: e.detail.options
+      });
       this.setState(() => ({
         toastrComponents: toaster
       }));
@@ -47,21 +58,39 @@ class ToastrContainer extends React.Component<any, State> {
     window.addEventListener(DESTROY_TOASTR, e => {
       // console.log(e.detail.index);
       const { toastrComponents } = { ...this.state };
-      const toaster = [...toastrComponents];
+      // const toaster = [...toastrComponents];
       this.setState(() => ({
-        toastrComponents: update(toaster, { $splice: [[0, 1]] })
+        toastrComponents: toastrComponents.filter(el => e.detail.id !== el.id)
       }));
     }, false);
   }
 
   render() {
     const { toastrComponents } = this.state;
+    const { options } = this.props;
 
     return (
       <div className="toastr-container">
-        {toastrComponents.map((toastrComponent, index) => (
-          <ToastrComponent key={toastrComponent} index={index}>{toastrComponent}</ToastrComponent>)
-        )}
+        <TransitionGroup
+          component={null}
+        >
+          {toastrComponents.map(toastrComponent => (
+            <CSSTransition
+              timeout={500}
+              classNames="fade"
+              key={toastrComponent.id}
+            >
+              <ToastrComponent
+                options={
+                  { ...options, ...toastrComponent.options }
+                }
+                id={toastrComponent.id}
+              >
+                {toastrComponent.component}
+              </ToastrComponent>
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
       </div>
     );
   }

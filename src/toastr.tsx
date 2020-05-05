@@ -1,24 +1,29 @@
 import React from 'react';
 import { DESTROY_TOASTR } from './action';
 
+interface Options {
+  autoClose: number;
+}
+
 interface Props {
-  index: number;
   children: any;
+  options: Options,
+  id: string
 }
 
 class ToastrComponent extends React.Component<Props, any> {
   componentDidMount() {
-    const { index } = this.props;
+    const { options, id } = this.props;
 
     setTimeout(() => {
       const event = new CustomEvent(DESTROY_TOASTR, {
         detail: {
-          index
+          id
         }
       });
 
       window.dispatchEvent(event);
-    }, 2000);
+    }, options.autoClose);
   }
 
   shouldComponentUpdate() {
@@ -30,7 +35,6 @@ class ToastrComponent extends React.Component<Props, any> {
 
     return (
       <div className="toastr">
-        I am a Toastr!!
         {children}
       </div>
     );

@@ -11,14 +11,16 @@ const toastr = {
     const appendDomNode = document.createElement('div');
     document.body.appendChild(appendDomNode);
     ReactDOM.render(
-      <ToastrContainer {...options} />,
+      <ToastrContainer
+        options={options}
+      />,
       appendDomNode
     );
 
     registerEvent(INIT_TOASTR);
   },
-  success: () => {
-    registerEvent(SUCCESS_TOASTR);
+  success: (component, options) => {
+    registerEvent(SUCCESS_TOASTR, component, options);
   },
   destroy: () => {
     registerEvent(DESTROY_TOASTR);
