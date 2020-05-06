@@ -1,8 +1,13 @@
+import { uniqueId } from './utils';
+
 const registerEvent = (type, component = null, options = null) => {
   const event = new CustomEvent(type, {
     detail: {
       component,
-      options
+      options: {
+        ...options,
+        id: uniqueId()
+      }
     }
   });
 

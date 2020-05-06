@@ -21,7 +21,7 @@
 .toastr {
   background-color: #ff00a5;
   width: 90%;
-  margin-bottom: 10px;
+  margin: 10px auto;
   height: 50px;
   border-radius: 4px;
   display: flex;
@@ -29,8 +29,18 @@
   justify-content: center;
   color: #fff;
   font-weight: 500;
-  // position: relative;
-  // transition: 0.2s;
+  &.info {
+    background-color: #0285B3;
+  }
+  &.success {
+    background-color: #00A86B;
+  }
+  &.warning {
+    background-color: #F8B41B;
+  }
+  &.error {
+    background-color: #DE3122;
+  }
 }
 
 

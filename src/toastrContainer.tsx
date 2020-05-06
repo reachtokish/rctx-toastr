@@ -29,34 +29,44 @@ class ToastrContainer extends React.Component<Props, State> {
 
   updateToastRails(component, options) {
     const { toastRails } = this.state;
-    const { position } = options;
+    const { position, id } = options;
 
     if (toastRails[position]) {
       toastRails[position].push({
-        id: uniqueId(),
+        id,
         component,
         options
       });
 
       this.setState({
         toastRails
-      }, () => {
-        console.log(toastRails);
       })
     }
     else {
       toastRails[position] = [{
-        id: uniqueId(),
+        id,
         component,
         options
       }];
 
       this.setState({
         toastRails
-      }, () => {
-        console.log(toastRails);
       });
     }
+  }
+
+  destroyToastr({ id }) {
+    const { toastRails } = this.state;
+    const newObj = {};
+    Object.keys(toastRails).map(el => {
+      const mapped = toastRails[el].filter(elm => elm.id !== id);
+      newObj[el] = mapped;
+      return null
+    });
+
+    this.setState({
+      toastRails: newObj
+    })
   }
 
   componentDidMount() {
@@ -67,6 +77,10 @@ class ToastrContainer extends React.Component<Props, State> {
     window.addEventListener(SUCCESS_TOASTR, event => {
       const { component, options } = event.detail;
       this.updateToastRails(component, options);
+
+      setTimeout(() => {
+        this.destroyToastr(options);
+      }, options.autoClose);
     }, false);
 
     window.addEventListener(DESTROY_TOASTR, event => {
@@ -81,7 +95,7 @@ class ToastrContainer extends React.Component<Props, State> {
       <>
         {Object.keys(toastRails).map(toastRail => (
           <div className={`toastr-container ${toastRail}`} key={toastRail}>
-            {toastRails[toastRail].map(({ id, component, options }) => (
+            {toastRails[toastRail] && toastRails[toastRail].map(({ id, component, options }) => (
               <ToastrComponent
                 options={options}
                 id={id}

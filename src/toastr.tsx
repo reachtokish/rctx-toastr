@@ -3,6 +3,7 @@ import { DESTROY_TOASTR } from './action';
 
 interface Options {
   autoClose: number;
+  type: string;
 }
 
 interface Props {
@@ -31,11 +32,11 @@ class ToastrComponent extends React.Component<Props, any> {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, options } = this.props;
 
     return (
-      <div className="toastr">
-        {children}
+      <div className={`toastr ${options.type}`}>
+        {children} {options.autoClose}
       </div>
     );
   }

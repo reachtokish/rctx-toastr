@@ -13,6 +13,7 @@ interface State {
   autoClose: number;
   position: string;
   template: string;
+  type: string;
 }
 
 class App extends React.Component<{}, State> {
@@ -22,7 +23,8 @@ class App extends React.Component<{}, State> {
     this.state = {
       autoClose: 2000,
       position: 'top-left',
-      template: allTemplates[0]
+      template: allTemplates[0],
+      type: 'default'
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -30,20 +32,22 @@ class App extends React.Component<{}, State> {
   }
 
   componentDidMount() {
-    const { autoClose, position } = this.state;
+    const { autoClose, position, type } = this.state;
 
     toastr.init({
       autoClose,
-      position
+      position,
+      type
     });
   }
 
   handleToastr() {
-    const { autoClose, position, template } = this.state;
+    const { autoClose, position, template, type } = this.state;
 
     toastr.success(template, {
       autoClose,
-      position
+      position,
+      type
     });
   }
 
@@ -51,12 +55,12 @@ class App extends React.Component<{}, State> {
     const { value, name } = e.target;
 
     this.setState({
-      [name]: value
+      [name]: name === 'autoClose' ? parseInt(value) : value
     } as State);
   }
 
   render() {
-    const { autoClose, position, template } = this.state;
+    const { autoClose, position, template, type } = this.state;
 
     return (
       <div className="wrapper">
@@ -64,12 +68,16 @@ class App extends React.Component<{}, State> {
           <div className="form">
             <div>
               <label>Auto close</label>
-              <input
-                type="number"
+              <select
+                multiple={false}
                 name="autoClose"
                 value={autoClose}
                 onChange={this.handleChange}
-              />
+              >
+                <option value={2000}>2000</option>
+                <option value={5000}>5000</option>
+                <option value={10000}>10000</option>
+              </select>
             </div>
             <div>
               <label>Position</label>
@@ -96,6 +104,21 @@ class App extends React.Component<{}, State> {
                 {allTemplates.map(eachTemplate => (
                   <option value={eachTemplate} key={eachTemplate}>{eachTemplate}</option>
                 ))}
+              </select>
+            </div>
+            <div>
+              <label>Type</label>
+              <select
+                name="type"
+                multiple={false}
+                value={type}
+                onChange={this.handleChange}
+              >
+                <option value="default">Default</option>
+                <option value="info">Info</option>
+                <option value="success">Success</option>
+                <option value="warning">Warning</option>
+                <option value="error">Error</option>
               </select>
             </div>
           </div>
