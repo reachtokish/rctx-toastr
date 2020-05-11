@@ -10,13 +10,15 @@ const allTemplates = [
 ]
 
 interface State {
-  autoClose: number;
+  autoClose: number | string | boolean;
   position: string;
   template: string;
   type: string;
 }
 
 class App extends React.Component<{}, State> {
+  toastrId: string;
+
   constructor(props) {
     super(props);
 
@@ -29,6 +31,7 @@ class App extends React.Component<{}, State> {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleToastr = this.handleToastr.bind(this);
+    this.handleDestroy = this.handleDestroy.bind(this);
   }
 
   componentDidMount() {
@@ -44,8 +47,8 @@ class App extends React.Component<{}, State> {
   handleToastr() {
     const { autoClose, position, template, type } = this.state;
 
-    toastr.success(template, {
-      autoClose,
+    this.toastrId = toastr.success(template, {
+      autoClose: autoClose === 'false' ? false : autoClose,
       position,
       type
     });
@@ -55,8 +58,12 @@ class App extends React.Component<{}, State> {
     const { value, name } = e.target;
 
     this.setState({
-      [name]: name === 'autoClose' ? parseInt(value) : value
+      [name]: name === 'autoClose' ? value === 'false' ? 'false' : parseInt(value) : value
     } as State);
+  }
+
+  handleDestroy() {
+    toastr.destroy(this.toastrId)
   }
 
   render() {
@@ -77,6 +84,7 @@ class App extends React.Component<{}, State> {
                 <option value={2000}>2000</option>
                 <option value={5000}>5000</option>
                 <option value={10000}>10000</option>
+                <option value="false">false</option>
               </select>
             </div>
             <div>
@@ -91,6 +99,8 @@ class App extends React.Component<{}, State> {
                 <option value="top-right">Top Right</option>
                 <option value="bottom-left">Bottom Left</option>
                 <option value="bottom-right">Bottom Right</option>
+                <option value="top-center">Top Center</option>
+                <option value="bottom-center">Bottom Center</option>
               </select>
             </div>
             <div>
@@ -125,9 +135,16 @@ class App extends React.Component<{}, State> {
           <button
             type="button"
             className="toastr-btn"
+            onClick={this.handleDestroy}
+          >
+            Destroy Message
+          </button>
+          <button
+            type="button"
+            className="toastr-btn"
             onClick={this.handleToastr}
           >
-            Show Toastr
+            Flash Message
           </button>
         </div>
       </div>

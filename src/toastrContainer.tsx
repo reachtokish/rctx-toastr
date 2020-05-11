@@ -5,11 +5,9 @@ import ToastrComponent from './toastr';
 import { INIT_TOASTR, SUCCESS_TOASTR, DESTROY_TOASTR } from './action';
 import update from 'react-addons-update';
 import { uniqueId } from './utils';
-import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { IOptions } from './interfaces';
+import ThemeTwo from './themes/theme1';
 
 interface State {
   toastRails: object;
@@ -58,11 +56,13 @@ class ToastrContainer extends React.Component<Props, State> {
   destroyToastr({ id }) {
     const { toastRails } = this.state;
     const newObj = {};
-    Object.keys(toastRails).map(el => {
-      const mapped = toastRails[el].filter(elm => elm.id !== id);
-      newObj[el] = mapped;
-      return null
-    });
+
+    Object.keys(toastRails)
+      .map(el => {
+        const mapped = toastRails[el].filter(elm => elm.id !== id);
+        newObj[el] = mapped;
+        return el;
+      });
 
     this.setState({
       toastRails: newObj
@@ -78,13 +78,15 @@ class ToastrContainer extends React.Component<Props, State> {
       const { component, options } = event.detail;
       this.updateToastRails(component, options);
 
-      setTimeout(() => {
-        this.destroyToastr(options);
-      }, options.autoClose);
+      if (options.autoClose) {
+        setTimeout(() => {
+          this.destroyToastr(options);
+        }, options.autoClose);
+      }
     }, false);
 
     window.addEventListener(DESTROY_TOASTR, event => {
-      return null;
+      this.destroyToastr(event.detail);
     }, false);
   }
 
@@ -93,19 +95,30 @@ class ToastrContainer extends React.Component<Props, State> {
 
     return (
       <>
-        {Object.keys(toastRails).map(toastRail => (
-          <div className={`toastr-container ${toastRail}`} key={toastRail}>
-            {toastRails[toastRail] && toastRails[toastRail].map(({ id, component, options }) => (
-              <ToastrComponent
-                options={options}
-                id={id}
-                key={id}
-              >
-                {component}
-              </ToastrComponent>
-            ))}
+        {/* {Object.keys(toastRails).map(toastRail => ( */}
+          {/* <div className={`toastr-container ${toastRail}`} key={toastRail}> */}
+          <div className="toastr-container top-left">
+            <ThemeTwo />
+            {/* <TransitionGroup>
+              {toastRails[toastRail] && toastRails[toastRail].map(({ id, component, options }) => (
+                <CSSTransition
+                  key={id}
+                  timeout={1000}
+                  classNames="fade"
+                  mountOnEnter={true}
+                  unmountOnExit={true}
+                >
+                  <ToastrComponent
+                    options={options}
+                    id={id}
+                  >
+                    {component}
+                  </ToastrComponent>
+                </CSSTransition>
+              ))}
+            </TransitionGroup> */}
           </div>
-        ))}
+        {/* // ))} */}
       </>
     );
   }

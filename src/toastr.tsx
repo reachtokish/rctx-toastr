@@ -13,22 +13,40 @@ interface Props {
 }
 
 class ToastrComponent extends React.Component<Props, any> {
-  componentDidMount() {
-    const { options, id } = this.props;
+  constructor(props) {
+    super(props);
 
-    setTimeout(() => {
-      const event = new CustomEvent(DESTROY_TOASTR, {
-        detail: {
-          id
-        }
-      });
-
-      window.dispatchEvent(event);
-    }, options.autoClose);
+    this.handleClose = this.handleClose.bind(this);
   }
+
+  // componentDidMount() {
+  //   const { options, id } = this.props;
+
+  //   setTimeout(() => {
+  //     const event = new CustomEvent(DESTROY_TOASTR, {
+  //       detail: {
+  //         id
+  //       }
+  //     });
+
+  //     window.dispatchEvent(event);
+  //   }, options.autoClose);
+  // }
 
   shouldComponentUpdate() {
     return false;
+  }
+
+  handleClose() {
+    const { id } = this.props;
+
+    const event = new CustomEvent(DESTROY_TOASTR, {
+      detail: {
+        id
+      }
+    });
+
+    window.dispatchEvent(event);
   }
 
   render() {
@@ -36,7 +54,7 @@ class ToastrComponent extends React.Component<Props, any> {
 
     return (
       <div className={`toastr ${options.type}`}>
-        {children} {options.autoClose}
+        {/* {children} &nbsp; <button onClick={this.handleClose}>X</button> */}
       </div>
     );
   }

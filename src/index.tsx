@@ -20,10 +20,16 @@ const toastr = {
     registerEvent(INIT_TOASTR);
   },
   success: (component, options) => {
-    registerEvent(SUCCESS_TOASTR, component, options);
+    return registerEvent(SUCCESS_TOASTR, component, options);
   },
-  destroy: () => {
-    registerEvent(DESTROY_TOASTR);
+  destroy: (id) => {
+    const event = new CustomEvent(DESTROY_TOASTR, {
+      detail: {
+        id
+      }
+    });
+
+    window.dispatchEvent(event);
   }
 };
 

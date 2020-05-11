@@ -1,0 +1,83 @@
+$errorColor: #EB5970;
+$successColor: #87CA81;
+$infoColor: #2F87EB;
+$warnColor: #FFC122;
+
+.toastr {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  overflow: hidden;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 5px;
+    background-color: #ddd;
+  }
+  &.error {
+    &:before {
+      background-color: $errorColor;
+    }
+  }
+  &.info {
+    &:before {
+      background-color: $infoColor;
+    }
+  }
+  &.warn {
+    &:before {
+      background-color: $infoColor;
+    }
+  }
+  &.success {
+    &:before {
+      background-color: $successColor;
+    }
+  }
+  button {
+    &.toastr-close {
+      position: absolute;
+      top: 14px;
+      right: 17px;
+      border: 0;
+      background-color: transparent;
+      width: 30px;
+      height: 30px;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+        svg {
+          fill: #333;
+        }
+      }
+      svg {
+        fill: #ccc;
+        width: 10px;
+        transition: 0.2s;
+      }
+    }
+  }
+  h3 {
+    &.title {
+      margin: 0 0 15px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #000;
+    }
+  }
+  p {
+    &.paragraph {
+      margin: 0;
+      font-size: 13px;
+      line-height: 20px;
+      color: #8a8a8a;
+    }
+  }
+}
