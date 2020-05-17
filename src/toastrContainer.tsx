@@ -1,31 +1,30 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import PropTypes from 'prop-types';
 import ToastrComponent from './toastr';
 import { INIT_TOASTR, SUCCESS_TOASTR, DESTROY_TOASTR } from './action';
 import update from 'react-addons-update';
 import { uniqueId } from './utils';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { IOptions } from './interfaces';
-import ThemeTwo from './themes/theme1';
+import ThemeTwo from './themes/theme2';
 
 interface State {
   toastRails: object;
 }
 
 interface Props {
-  options: IOptions
+  options: IOptions;
 }
 
 class ToastrContainer extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       toastRails: {}
     };
   }
 
-  updateToastRails(component, options) {
+  updateToastRails(component: JSX.Element, options: IOptions): void {
     const { toastRails } = this.state;
     const { position, id } = options;
 
@@ -38,7 +37,7 @@ class ToastrContainer extends React.Component<Props, State> {
 
       this.setState({
         toastRails
-      })
+      });
     }
     else {
       toastRails[position] = [{
@@ -53,54 +52,60 @@ class ToastrContainer extends React.Component<Props, State> {
     }
   }
 
-  destroyToastr({ id }) {
+  destroyToastr({ id }: { id: string }): void {
     const { toastRails } = this.state;
     const newObj = {};
 
     Object.keys(toastRails)
-      .map(el => {
-        const mapped = toastRails[el].filter(elm => elm.id !== id);
+      // TODO: need to check typedef in the below line
+      .map((el: any): any => {
+        // TODO: need to check typedef in the below line
+        const mapped = toastRails[el].filter((elm: any): any => elm.id !== id);
         newObj[el] = mapped;
         return el;
       });
 
     this.setState({
       toastRails: newObj
-    })
+    });
   }
 
-  componentDidMount() {
-    window.addEventListener(INIT_TOASTR, event => {
+  componentDidMount(): void {
+    // TODO: need to check typedef in the below line
+    window.addEventListener(INIT_TOASTR, (event: any): any => {
       return null;
     }, false);
 
-    window.addEventListener(SUCCESS_TOASTR, event => {
+    // TODO: need to check typedef in the below line
+    window.addEventListener(SUCCESS_TOASTR, (event: any): any => {
       const { component, options } = event.detail;
       this.updateToastRails(component, options);
 
       if (options.autoClose) {
-        setTimeout(() => {
+        // TODO: need to check typedef in the below line
+        setTimeout((): any => {
           this.destroyToastr(options);
         }, options.autoClose);
       }
     }, false);
 
-    window.addEventListener(DESTROY_TOASTR, event => {
+    // TODO: need to check typedef in the below line
+    window.addEventListener(DESTROY_TOASTR, (event: any): any => {
       this.destroyToastr(event.detail);
     }, false);
   }
 
-  render() {
+  render(): JSX.Element {
     const { toastRails } = this.state;
 
     return (
       <>
-        {/* {Object.keys(toastRails).map(toastRail => ( */}
-          {/* <div className={`toastr-container ${toastRail}`} key={toastRail}> */}
-          <div className="toastr-container top-left">
-            <ThemeTwo />
-            {/* <TransitionGroup>
-              {toastRails[toastRail] && toastRails[toastRail].map(({ id, component, options }) => (
+        {/* TODO: need to check typedef in the below line */}
+        {Object.keys(toastRails).map((toastRail: any): any => (
+          <div className={`toastr-container ${toastRail}`} key={toastRail}>
+            <TransitionGroup>
+              {/* TODO: need to check typedef in the below line */}
+              {toastRails[toastRail] && toastRails[toastRail].map(({ id, component, options }: any): any => (
                 <CSSTransition
                   key={id}
                   timeout={1000}
@@ -116,9 +121,9 @@ class ToastrContainer extends React.Component<Props, State> {
                   </ToastrComponent>
                 </CSSTransition>
               ))}
-            </TransitionGroup> */}
+            </TransitionGroup>
           </div>
-        {/* // ))} */}
+        ))}
       </>
     );
   }

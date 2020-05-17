@@ -3,14 +3,12 @@ import { CloseIco } from './../../icons';
 
 import './style.scss';
 
-function ThemeOne() {
+function ThemeOne({ options }) {
   return (
-    <div className="toastr info">
+    <div className={`toastr ${options.type}`}>
       <button type="button" className="toastr-close"><CloseIco /></button>
-      <h3 className="title">Payment Complete</h3>
-      <p className="paragraph">
-        Thank you for your recent payment. Your monthly subscription has been activated until June 2020.
-      </p>
+      {options.title && <h3 className="title">{options.title}</h3>}
+      {options.content && <p className="paragraph">{options.content}</p>}
     </div>
   )
 }

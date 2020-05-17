@@ -50,7 +50,9 @@ class App extends React.Component<{}, State> {
     this.toastrId = toastr.success(template, {
       autoClose: autoClose === 'false' ? false : autoClose,
       position,
-      type
+      type,
+      title: "Payment Complete!!",
+      content: "Thank you for your recent payment. Your monthly subscription has been activated until June 2020."
     });
   }
 

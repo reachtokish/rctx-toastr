@@ -6,7 +6,7 @@ $warnColor: #FFC122;
 .toastr {
   position: relative;
   background-color: #fff;
-  padding: 20px;
+  padding: 20px 20px 20px 65px;
   border-radius: 4px;
   box-shadow: 0 0 10px rgba(0,0,0,0.15);
   overflow: hidden;
@@ -23,19 +23,31 @@ $warnColor: #FFC122;
     &:before {
       background-color: $errorColor;
     }
+    .toastr-sign {
+      background-color: $errorColor;
+    }
   }
   &.info {
     &:before {
       background-color: $infoColor;
     }
+    .toastr-sign {
+      background-color: $infoColor;
+    }
   }
   &.warn {
     &:before {
-      background-color: $infoColor;
+      background-color: $warnColor;
+    }
+    .toastr-sign {
+      background-color: $warnColor;
     }
   }
   &.success {
     &:before {
+      background-color: $successColor;
+    }
+    .toastr-sign {
       background-color: $successColor;
     }
   }
@@ -66,9 +78,9 @@ $warnColor: #FFC122;
   }
   h3 {
     &.title {
-      margin: 0 0 15px;
+      margin: 0 0 10px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 16px;
       color: #000;
     }
   }
@@ -78,6 +90,23 @@ $warnColor: #FFC122;
       font-size: 13px;
       line-height: 20px;
       color: #8a8a8a;
+    }
+  }
+  .toastr-sign {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    left: 20px;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    svg {
+      fill: #fff;
+      width: 15px;
     }
   }
 }

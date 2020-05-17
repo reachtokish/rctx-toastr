@@ -1,5 +1,6 @@
 import React from 'react';
 import { DESTROY_TOASTR } from './action';
+import ThemeOne from './themes/theme1';
 
 interface Options {
   autoClose: number;
@@ -13,31 +14,17 @@ interface Props {
 }
 
 class ToastrComponent extends React.Component<Props, any> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.handleClose = this.handleClose.bind(this);
   }
 
-  // componentDidMount() {
-  //   const { options, id } = this.props;
-
-  //   setTimeout(() => {
-  //     const event = new CustomEvent(DESTROY_TOASTR, {
-  //       detail: {
-  //         id
-  //       }
-  //     });
-
-  //     window.dispatchEvent(event);
-  //   }, options.autoClose);
-  // }
-
-  shouldComponentUpdate() {
+  shouldComponentUpdate(): boolean {
     return false;
   }
 
-  handleClose() {
+  handleClose(): void {
     const { id } = this.props;
 
     const event = new CustomEvent(DESTROY_TOASTR, {
@@ -49,13 +36,13 @@ class ToastrComponent extends React.Component<Props, any> {
     window.dispatchEvent(event);
   }
 
-  render() {
+  render(): JSX.Element {
     const { children, options } = this.props;
 
     return (
-      <div className={`toastr ${options.type}`}>
-        {/* {children} &nbsp; <button onClick={this.handleClose}>X</button> */}
-      </div>
+      <ThemeOne
+        options={{ ...options }}
+      />
     );
   }
 }

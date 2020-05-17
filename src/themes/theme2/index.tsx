@@ -1,15 +1,16 @@
 import React from 'react';
-import { CloseIco } from './../../icons';
+import { CloseIco, TickIco } from './../../icons';
 
 import './style.scss';
 
 function ThemeTwo() {
   return (
-    <div className="toastr info">
+    <div className="toastr success">
       <button type="button" className="toastr-close"><CloseIco /></button>
+      <span className="toastr-sign"><TickIco /></span>
       <h3 className="title">Payment Complete</h3>
       <p className="paragraph">
-        Thank you for your recent payment. Your monthly subscription has been activated until June 2020.
+        Your monthly subscription has been activated.
       </p>
     </div>
   )
