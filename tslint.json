@@ -98,13 +98,6 @@
       "spaces",
       2
     ],
-    "trailing-comma": [
-      true,
-      {
-        "multiline": "always",
-        "singleline": "never"
-      }
-    ],
     "linebreak-style": [
       true,
       "CRLF"
@@ -119,7 +112,7 @@
     ],
     "no-consecutive-blank-lines": true,
     "no-implicit-dependencies": [true, "dev"],
-    "trailing-comma": [0]
+    "trailing-comma": [false]
   },
   "jsRules": {
     "max-line-length": {
