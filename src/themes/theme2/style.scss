@@ -10,6 +10,7 @@ $warnColor: #FFC122;
   border-radius: 4px;
   box-shadow: 0 0 10px rgba(0,0,0,0.15);
   overflow: hidden;
+  margin: 0 0 15px;
   &:before {
     content: "";
     position: absolute;
@@ -35,7 +36,7 @@ $warnColor: #FFC122;
       background-color: $infoColor;
     }
   }
-  &.warn {
+  &.warning {
     &:before {
       background-color: $warnColor;
     }

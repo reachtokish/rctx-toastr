@@ -1,6 +1,6 @@
 import React from 'react';
 import { DESTROY_TOASTR } from './action';
-import ThemeOne from './themes/theme1';
+import { ThemeOne, ThemeTwo } from './themes';
 
 interface Options {
   autoClose: number;
@@ -36,13 +36,38 @@ class ToastrComponent extends React.Component<Props, any> {
     window.dispatchEvent(event);
   }
 
+  renderTheme() {
+    const { options } = this.props;
+
+    switch (options.theme) {
+      case 'THEME_ONE':
+        return (
+          <ThemeOne
+            options={{ ...options }}
+          />
+        )
+      case 'THEME_TWO':
+        return (
+          <ThemeTwo
+            options={{ ...options }}
+          />
+        );
+      default:
+        return (
+          <ThemeOne
+            options={{ ...options }}
+          />
+        );
+    }
+  }
+
   render(): JSX.Element {
     const { children, options } = this.props;
 
     return (
-      <ThemeOne
-        options={{ ...options }}
-      />
+      <>
+        {this.renderTheme()}
+      </>
     );
   }
 }

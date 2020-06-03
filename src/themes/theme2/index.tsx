@@ -3,17 +3,15 @@ import { CloseIco, TickIco } from './../../icons';
 
 import './style.scss';
 
-function ThemeTwo() {
+function ThemeTwo({ options }) {
   return (
-    <div className="toastr success">
+    <div className={`theme2 toastr ${options.type}`}>
       <button type="button" className="toastr-close"><CloseIco /></button>
       <span className="toastr-sign"><TickIco /></span>
-      <h3 className="title">Payment Complete</h3>
-      <p className="paragraph">
-        Your monthly subscription has been activated.
-      </p>
+      {options.title && <h3 className="title">{options.title}</h3>}
+      {options.content && <p className="paragraph">{options.content}</p>}
     </div>
-  )
+  );
 }
 
 export default ThemeTwo;

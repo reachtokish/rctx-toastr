@@ -52,7 +52,8 @@ class App extends React.Component<{}, State> {
       position,
       type,
       title: "Payment Complete!!",
-      content: "Thank you for your recent payment. Your monthly subscription has been activated until June 2020."
+      content: "Thank you for your recent payment. Your monthly subscription has been activated until June 2020.",
+      theme: "THEME_ONE"
     });
   }
 

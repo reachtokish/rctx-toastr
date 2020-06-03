@@ -103,25 +103,17 @@ class ToastrContainer extends React.Component<Props, State> {
         {/* TODO: need to check typedef in the below line */}
         {Object.keys(toastRails).map((toastRail: any): any => (
           <div className={`toastr-container ${toastRail}`} key={toastRail}>
-            <TransitionGroup>
-              {/* TODO: need to check typedef in the below line */}
-              {toastRails[toastRail] && toastRails[toastRail].map(({ id, component, options }: any): any => (
-                <CSSTransition
+            {/* TODO: need to check typedef in the below line */}
+            {toastRails[toastRail] && toastRails[toastRail]
+              .map(({ id, component, options }: any): any => (
+                <ToastrComponent
+                  options={options}
+                  id={id}
                   key={id}
-                  timeout={1000}
-                  classNames="fade"
-                  mountOnEnter={true}
-                  unmountOnExit={true}
                 >
-                  <ToastrComponent
-                    options={options}
-                    id={id}
-                  >
-                    {component}
-                  </ToastrComponent>
-                </CSSTransition>
+                  {component}
+                </ToastrComponent>
               ))}
-            </TransitionGroup>
           </div>
         ))}
       </>
